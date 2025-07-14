@@ -8,7 +8,7 @@ const Footer = () => {
       {/* Top Line */}
       <div className="border-t border-gray-600 w-full"></div>
 
-      {/* Footer Content */}
+      {/* Footer Content   */}
       <div className="w-11/12 mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
         {/* Brand */}
         <div className="space-y-3">
