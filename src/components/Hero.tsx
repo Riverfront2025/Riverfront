@@ -3,23 +3,57 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import hero from "../assets/hero.png";
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 function Hero() {
-  const [phone, setPhone] = useState<string>("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState<string>("");
+  const [interest, setInterest] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
 
   const validateEmail = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!validateEmail(email)) {
       setEmailError("Please enter a valid email.");
       return;
     }
+
     setEmailError("");
-    console.log({ phone, email });
-    // TODO: send data to backend
+    setLoading(true);
+
+    const payload = { name, email, phone, interest };
+
+    try {
+      const res = await fetch(`${baseURL}/api/leads`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setSuccessMsg("Thanks! We’ll reach out shortly.");
+        setName("");
+        setEmail("");
+        setPhone("");
+        setInterest("");
+
+        setTimeout(() => setSuccessMsg(""), 3000);
+      } else {
+        console.error("❌ Submission failed:", data.message);
+      }
+    } catch (error) {
+      console.error("❌ Network error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -27,7 +61,6 @@ function Hero() {
       className="relative bg-cover bg-center bg-no-repeat py-16 px-6 md:px-16"
       style={{ backgroundImage: `url(${hero})` }}
     >
-      {/* Overlay if needed */}
       <div className="absolute inset-0 bg-black/40"></div>
 
       <div className="relative w-11/12 mx-auto py-8 rounded-lg flex flex-col md:flex-row items-center gap-10">
@@ -52,10 +85,13 @@ function Hero() {
           <h2 className="text-2xl font-semibold mb-4 text-black dark:text-white">
             Get in Touch
           </h2>
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <input
               type="text"
               placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
               className="w-full p-3 border border-gray-300 dark:border-white/20 rounded bg-white dark:bg-black text-black dark:text-white"
             />
@@ -76,10 +112,7 @@ function Hero() {
               country={"ae"}
               value={phone}
               onChange={(value) => setPhone(value)}
-              inputProps={{
-                required: true,
-                name: "phone",
-              }}
+              inputProps={{ required: true, name: "phone" }}
               containerClass="w-full"
               inputClass="!w-full !bg-white dark:!bg-black !text-black dark:!text-white !border !border-gray-300 dark:!border-white/20 !rounded !pl-14 !py-3"
               buttonClass="!bg-transparent !border-none !left-3"
@@ -88,6 +121,8 @@ function Hero() {
 
             <select
               required
+              value={interest}
+              onChange={(e) => setInterest(e.target.value)}
               className="w-full p-3 border border-gray-300 dark:border-white/20 rounded bg-white dark:bg-black text-black dark:text-white"
             >
               <option value="">Interested In</option>
@@ -99,10 +134,17 @@ function Hero() {
 
             <button
               type="submit"
-              className="w-full bg-[var(--primary-color)] text-white py-3 rounded hover:opacity-90 transition"
+              disabled={loading}
+              className={`w-full bg-[var(--primary-color)] text-white py-3 rounded hover:opacity-90 transition ${
+                loading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
             >
-              Submit
+              {loading ? "Submitting..." : "Submit"}
             </button>
+
+            {successMsg && (
+              <p className="text-green-600 text-center text-sm">{successMsg}</p>
+            )}
           </form>
         </div>
       </div>

@@ -2,28 +2,66 @@ import { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 interface PopupFormProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
 const PopupForm = ({ isOpen, onClose }: PopupFormProps) => {
-  const [phone, setPhone] = useState<string>("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState<string>("");
+  const [interest, setInterest] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
 
   const validateEmail = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateEmail(email)) {
       setEmailError("Please enter a valid email.");
       return;
     }
+
     setEmailError("");
-    console.log({ phone, email });
-    onClose(); // Close on successful submit (optional)
+    setLoading(true);
+
+    const payload = { name, email, phone, interest };
+
+    try {
+      const res = await fetch(`${baseURL}/api/leads`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setSuccessMsg("Thank you! We’ll get in touch shortly.");
+        // Reset form
+        setName("");
+        setEmail("");
+        setPhone("");
+        setInterest("");
+
+        // Optionally close modal after 2s
+        setTimeout(() => {
+          setSuccessMsg("");
+          onClose();
+        }, 2000);
+      } else {
+        console.error("❌ Submission failed:", data.message);
+      }
+    } catch (error) {
+      console.error("❌ Network error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -47,6 +85,8 @@ const PopupForm = ({ isOpen, onClose }: PopupFormProps) => {
           <input
             type="text"
             placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
             className="w-full p-3 border border-gray-300 dark:border-white/20 rounded bg-white dark:bg-black text-black dark:text-white"
           />
@@ -75,6 +115,8 @@ const PopupForm = ({ isOpen, onClose }: PopupFormProps) => {
           />
 
           <select
+            value={interest}
+            onChange={(e) => setInterest(e.target.value)}
             required
             className="w-full p-3 border border-gray-300 dark:border-white/20 rounded bg-white dark:bg-black text-black dark:text-white"
           >
@@ -87,10 +129,17 @@ const PopupForm = ({ isOpen, onClose }: PopupFormProps) => {
 
           <button
             type="submit"
-            className="w-full bg-[var(--primary-color)] text-white py-3 rounded hover:opacity-90 transition"
+            disabled={loading}
+            className={`w-full bg-[var(--primary-color)] text-white py-3 rounded hover:opacity-90 transition ${
+              loading ? "opacity-70 cursor-not-allowed" : ""
+            }`}
           >
-            Submit
+            {loading ? "Submitting..." : "Submit"}
           </button>
+
+          {successMsg && (
+            <p className="text-green-600 text-center text-sm">{successMsg}</p>
+          )}
         </form>
       </div>
     </div>
