@@ -67,3 +67,15 @@ input[type="number"] {
 .reveal[style*="autoAlpha: 1"] {
   visibility: visible;
 }
+
+.writing-vertical {
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+}
+
+.writing-vertical2 {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  line-height: 2.5;
+  text-align: center;
+}

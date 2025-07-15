@@ -1,6 +1,6 @@
 import logo from "../assets/Logo for riverfront .png";
-import { Facebook, Instagram, Linkedin } from "lucide-react";
-import { FaXTwitter } from "react-icons/fa6";
+// import { Facebook, Instagram, Linkedin } from "lucide-react";
+// import { FaXTwitter } from "react-icons/fa6";
 
 const Footer = () => {
   return (
@@ -9,11 +9,11 @@ const Footer = () => {
       <div className="border-t border-gray-600 w-full"></div>
 
       {/* Footer Content */}
-      <div className="w-11/12 mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+      <div className="w-11/12 mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3  gap-8">
         {/* Brand */}
         <div className="space-y-3">
           <img src={logo} alt="riverfront" className="w-48" />
-          <div className="flex gap-4 mt-4">
+          {/* <div className="flex gap-4 mt-4">
             <a href="#" target="_blank" rel="noopener noreferrer">
               <Facebook className="w-5 h-5 hover:text-[var(--primary-color)]" />
             </a>
@@ -26,7 +26,7 @@ const Footer = () => {
             <a href="#" target="_blank" rel="noopener noreferrer">
               <Linkedin className="w-5 h-5 hover:text-[var(--primary-color)]" />
             </a>
-          </div>
+          </div> */}
 
           {/* as */}
           <div className="flex gap-6 text-xs text-gray-400 mt-6 flex-wrap">
@@ -43,7 +43,7 @@ const Footer = () => {
             © {new Date().getFullYear()} RIVERFRONT. All rights reserved.
           </div>
         </div>
-
+        {/* 
         <div>
           <h3 className="text-lg font-semibold mb-2">Explore</h3>
           <ul className="space-y-2 text-sm text-gray-400">
@@ -60,7 +60,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Navigation */}
+       
         <div>
           <h3 className="text-lg font-semibold mb-2">Insights</h3>
           <ul className="space-y-2 text-sm text-gray-400">
@@ -83,7 +83,7 @@ const Footer = () => {
               <a href="/faq">FAQ</a>
             </li>
           </ul>
-        </div>
+        </div> */}
 
         {/* Services */}
         <div>
@@ -101,8 +101,11 @@ const Footer = () => {
           <h3 className="text-lg font-semibold mb-2">Contact</h3>
           <ul className="space-y-2 text-sm text-gray-400">
             <li>Email: info@riverfront.ae</li>
-            <li>Phone: +971 50 123 4567</li>
-            <li>Location: Dubai Marina, UAE</li>
+            <li>Phone: +971 47702260</li>
+            <li>
+              Location: 1703, Damac XL tower, Marasi Drive, Business bay, Dubai,
+              UAE.
+            </li>
           </ul>
         </div>
       </div>
