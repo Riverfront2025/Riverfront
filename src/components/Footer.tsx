@@ -4,7 +4,7 @@ import logo from "../assets/Logo for riverfront .png";
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white font-raleway font-light">
+    <footer className="bg-black text-white">
       {/* Top Line */}
       <div className="border-t border-gray-600 w-full"></div>
 
@@ -30,9 +30,6 @@ const Footer = () => {
 
           {/* as */}
           <div className="flex gap-6 text-xs text-gray-400 mt-6 flex-wrap">
-            <a href="/terms" className="hover:text-white">
-              Terms & Conditions
-            </a>
             <a href="/privacy" className="hover:text-white">
               Privacy Policy
             </a>
@@ -108,8 +105,22 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-700 mt-8 py-4 text-center text-sm text-gray-500">
-        &copy; {new Date().getFullYear()} RIVERFRONT. All rights reserved.
+      {/* Bottom Bar */}
+      <div className="border-t border-gray-700 mt-8 py-4 text-center text-md text-gray-500 space-y-1">
+        <div>
+          &copy; {new Date().getFullYear()} RIVERFRONT. All rights reserved.
+        </div>
+        <div>
+          Designed and Developed by{" "}
+          <a
+            href="https://www.bigwigdigital.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[var(--primary-color)] hover:underline"
+          >
+            Bigwig Digital
+          </a>
+        </div>
       </div>
     </footer>
   );

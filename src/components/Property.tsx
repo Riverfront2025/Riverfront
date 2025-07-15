@@ -1,25 +1,80 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Slider from "react-slick";
 import PopupForm from "./Popup";
-import sampleVideo from "../assets/Rent.mp4";
-import offplanVideo from "../assets/offplan.mp4";
+
+// Import Images
+import rent1 from "../assets/rent/WhatsApp Image 2025-07-15 at 2.10.34 PM.jpeg";
+import rent2 from "../assets/rent/WhatsApp Image 2025-07-15 at 2.10.35 PM.jpeg";
+import rent3 from "../assets/rent/WhatsApp Image 2025-07-15 at 2.10.36 PM (1).jpeg";
+import rent4 from "../assets/rent/WhatsApp Image 2025-07-15 at 2.10.36 PM.jpeg";
+import rent5 from "../assets/rent/WhatsApp Image 2025-07-15 at 2.10.37 PM.jpeg";
+import rent6 from "../assets/rent/WhatsApp Image 2025-07-15 at 2.10.38 PM (1).jpeg";
+import rent7 from "../assets/rent/WhatsApp Image 2025-07-15 at 2.10.38 PM.jpeg";
+import rent8 from "../assets/rent/WhatsApp Image 2025-07-15 at 2.10.39 PM.jpeg";
+import rent9 from "../assets/rent/WhatsApp Image 2025-07-15 at 2.10.40 PM (1).jpeg";
+import rent10 from "../assets/rent/WhatsApp Image 2025-07-15 at 2.10.40 PM.jpeg";
+import rent11 from "../assets/rent/WhatsApp Image 2025-07-15 at 2.10.41 PM (1).jpeg";
+import rent12 from "../assets/rent/WhatsApp Image 2025-07-15 at 2.10.41 PM.jpeg";
+import rent13 from "../assets/rent/WhatsApp Image 2025-07-15 at 2.10.42 PM.jpeg";
+import rent14 from "../assets/rent/WhatsApp Image 2025-07-15 at 2.10.43 PM.jpeg";
+
+import sell1 from "../assets/sell/WhatsApp Image 2025-07-15 at 2.12.31 PM.jpeg";
+import sell2 from "../assets/sell/WhatsApp Image 2025-07-15 at 2.12.32 PM (1).jpeg";
+import sell3 from "../assets/sell/WhatsApp Image 2025-07-15 at 2.12.32 PM.jpeg";
+import sell4 from "../assets/sell/WhatsApp Image 2025-07-15 at 2.12.33 PM.jpeg";
+import sell5 from "../assets/sell/WhatsApp Image 2025-07-15 at 2.12.34 PM.jpeg";
+import sell6 from "../assets/sell/WhatsApp Image 2025-07-15 at 2.12.35 PM.jpeg";
+import sell7 from "../assets/sell/WhatsApp Image 2025-07-15 at 2.12.36 PM.jpeg";
+import sell8 from "../assets/sell/WhatsApp Image 2025-07-15 at 2.12.37 PM (1).jpeg";
+import sell9 from "../assets/sell/WhatsApp Image 2025-07-15 at 2.12.37 PM.jpeg";
+import sell10 from "../assets/sell/WhatsApp Image 2025-07-15 at 2.12.39 PM.jpeg";
+import sell11 from "../assets/sell/WhatsApp Image 2025-07-15 at 2.12.40 PM.jpeg";
+import sell12 from "../assets/sell/WhatsApp Image 2025-07-15 at 2.12.41 PM.jpeg";
+import sell13 from "../assets/sell/WhatsApp Image 2025-07-15 at 2.12.42 PM.jpeg";
+
+import offplan1 from "../assets/offplan/11.jpg";
+import offplan2 from "../assets/offplan/13.jpg";
+import offplan3 from "../assets/offplan/5.jpg";
+import offplan4 from "../assets/offplan/8.jpg";
+import offplan5 from "../assets/offplan/1.jpg";
+import offplan6 from "../assets/offplan/3.jpg";
+import offplan7 from "../assets/offplan/7.jpg";
+
+// Import slick styles
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 // Types
 type Property = {
-  video: string;
+  images: string[];
   title: string;
-  features?: string[]; // for Sell & Rent
+  features?: string[];
   sections?: {
     title: string;
     items: string[];
-  }[]; // for Offplan
+  }[];
 };
 
 // Sample Data
 const sellProperties: Property[] = [
   {
-    video: sampleVideo,
     title: "Binghatti Azure",
+    images: [
+      sell1,
+      sell2,
+      sell3,
+      sell4,
+      sell5,
+      sell6,
+      sell7,
+      sell8,
+      sell9,
+      sell10,
+      sell11,
+      sell12,
+      sell13,
+    ],
     features: [
       "1BHK",
       "Size 700 sqft",
@@ -37,8 +92,23 @@ const sellProperties: Property[] = [
 
 const rentProperties: Property[] = [
   {
-    video: sampleVideo,
     title: "Binghatti Lavender",
+    images: [
+      rent1,
+      rent2,
+      rent3,
+      rent4,
+      rent5,
+      rent6,
+      rent7,
+      rent8,
+      rent9,
+      rent10,
+      rent11,
+      rent12,
+      rent13,
+      rent14,
+    ],
     features: [
       "1BHK",
       "Size 763 sqft",
@@ -56,8 +126,16 @@ const rentProperties: Property[] = [
 
 const offplanProperties: Property[] = [
   {
-    video: offplanVideo,
     title: "11 Hills Park",
+    images: [
+      offplan1,
+      offplan2,
+      offplan3,
+      offplan4,
+      offplan5,
+      offplan6,
+      offplan7,
+    ],
     sections: [
       {
         title: "Area",
@@ -97,11 +175,11 @@ const offplanProperties: Property[] = [
   },
 ];
 
-const TABS = ["Sell", "Rent", "Offplan"] as const;
+const TABS = ["Offplan", "Sell", "Rent"] as const;
 type Tab = (typeof TABS)[number];
 
 const Property = () => {
-  const [activeTab, setActiveTab] = useState<Tab>("Sell");
+  const [activeTab, setActiveTab] = useState<Tab>("Offplan");
   const [index, setIndex] = useState(0);
   const [showPopup, setShowPopup] = useState(false);
 
@@ -124,8 +202,20 @@ const Property = () => {
   const handlePrev = () => index > 0 && setIndex(index - 1);
   const handleNext = () => index + 1 < properties.length && setIndex(index + 1);
 
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 800,
+    slidesToShow: 1,
+    arrows: false,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2500,
+    pauseOnHover: false,
+  };
+
   return (
-    <section className="bg-white dark:bg-black text-black dark:text-white py-12 px-4 relative">
+    <section className="bg-white dark:bg-black text-black dark:text-white py-12 relative">
       {/* Title */}
       <div className="mb-8 text-center">
         <h2 className="text-3xl md:text-4xl font-semibold tracking-wide">
@@ -160,21 +250,22 @@ const Property = () => {
       </div>
 
       {/* Property Display */}
-      <div className="md:w-10/12 mx-auto">
+      <div className="w-11/12 md:w-5/6 mx-auto">
         {properties.length > 0 ? (
           <div className="flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-900 shadow-lg border border-gray-200 dark:border-white/10 rounded-xl overflow-hidden">
-            {/* Video */}
+            {/* Image Slider */}
             <div className="md:w-1/2 w-full h-[300px] md:h-[550px]">
-              <video
-                key={`${activeTab}-${index}`}
-                className="w-full h-full object-cover rounded-l-xl"
-                controls
-                muted
-                loop
-              >
-                <source src={current.video} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              <Slider {...sliderSettings}>
+                {current.images.map((img, i) => (
+                  <div key={i}>
+                    <img
+                      src={img}
+                      alt={`property-${i}`}
+                      className="w-full h-[300px] md:h-[550px] object-cover rounded-l-xl"
+                    />
+                  </div>
+                ))}
+              </Slider>
             </div>
 
             {/* Details */}
@@ -184,7 +275,7 @@ const Property = () => {
                   {current.title}
                 </h3>
 
-                {/* Sell/Rent Features */}
+                {/* Features (Sell/Rent) */}
                 {current.features &&
                   current.features.map((item, idx) => (
                     <p key={idx} className="text-gray-700 dark:text-gray-300">
@@ -192,7 +283,7 @@ const Property = () => {
                     </p>
                   ))}
 
-                {/* Offplan Sections */}
+                {/* Sections (Offplan) */}
                 {current.sections &&
                   current.sections.map((section, sIdx) => (
                     <div key={sIdx} className="mt-4">

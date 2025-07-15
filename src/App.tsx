@@ -9,10 +9,16 @@ import BuyerGuide from "./pages/Insights/BuyersGuide";
 import SellerGuide from "./pages/Insights/SellersGuide";
 import Relocating from "./pages/Insights/Relocating";
 import FAQSection from "./pages/Insights/Faq";
+import AdminLayout from "./pages/admin/AdminLayout";
+import Dashboard from "./pages/admin/Dashboard";
+import AdminLeads from "./pages/admin/Leads";
 
-function App() {
+import AdminListings from "./pages/admin/Listing";
+import PrivacyPolicy from "./pages/Privacy";
+
+function AppWrapper() {
   return (
-    <Router>
+    <>
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/about" element={<AboutUs />} />
@@ -23,7 +29,21 @@ function App() {
         <Route path="/sellers-guide" element={<SellerGuide />} />
         <Route path="/relocating-to-dubai" element={<Relocating />} />
         <Route path="/faq" element={<FAQSection />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/riverfront" element={<AdminLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="leads" element={<AdminLeads />} />
+          <Route path="listings" element={<AdminListings />} />
+        </Route>
       </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppWrapper />
     </Router>
   );
 }

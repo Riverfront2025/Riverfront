@@ -182,11 +182,7 @@ const PropertyForm: React.FC<Props> = ({ onClose }) => {
 
           <p className="text-xs text-gray-600 mt-2">
             By clicking Submit, you agree to our{" "}
-            <a href="#" className="underline">
-              Terms & Conditions
-            </a>{" "}
-            and{" "}
-            <a href="#" className="underline">
+            <a href="/privacy" className="underline">
               Privacy Policy
             </a>
             .
