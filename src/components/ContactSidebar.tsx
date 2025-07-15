@@ -47,7 +47,7 @@ const ContactSidebar: React.FC = () => {
 
           <a
             href="tel:+97147702260"
-            className="w-12 h-14 bg-[var(--secondary-color)] flex items-center justify-center text-white cursor-pointer"
+            className="w-12 h-14 bg-white flex items-center justify-center text-[var(--primary-color)]  cursor-pointer"
           >
             <FaPhoneAlt />
           </a>

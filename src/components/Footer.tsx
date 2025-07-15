@@ -102,10 +102,7 @@ const Footer = () => {
           <ul className="space-y-2 text-sm text-gray-400">
             <li>Email: info@riverfront.ae</li>
             <li>Phone: +971 47702260</li>
-            <li>
-              Location: 1703, Damac XL tower, Marasi Drive, Business bay, Dubai,
-              UAE.
-            </li>
+            <li>Location: 1405 prime bussiness tower jvc Dubai</li>
           </ul>
         </div>
       </div>
